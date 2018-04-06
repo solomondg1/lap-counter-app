@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lap Counter</title>
+    <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="jquery.magnific-popup.min.js"></script>   
+    <script type="text/javascript" src="moment.min.js"></script> 
+    <script type="text/javascript" src="countdown.min.js"></script> 
+    
+    <script type="text/javascript" src="main.js"></script>
+    
+    <link rel="stylesheet" media="all" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" media="all" href="css/magnific-popup.css" />
+    <link rel="stylesheet" media="all" href="css/main.css" />
+</head>
+<body>
+	<div class="top-bar">
+		<button type="button" id="start-race"><i class="fas fa-flag-checkered"></i></button>
+		<div class="clock">--:--:--</div>
+		<button type="button" id="full-screen"><i class="fas fa-expand-arrows-alt"></i></button>
+	</div>
+    <section class="main">
+    	<div class="racers-grid">
+
+    	</div>
+        <div class="under-grid">
+            <button type="button" id="add-racer"><i class="fas fa-plus"></i></button>
+            <button type="button" id="edit-racers"><i class="fas fa-edit"></i></button>
+            <button type="button" id="options"><i class="fas fa-cogs"></i></button>
+        </div>
+    </section>
+    <div class="mfp-hide popup add-racer-popup">
+    	<label>Name
+    		<input type="text" class="name"/>
+    	</label>
+    	<label class="color-picker">Color
+    		<div class="colors">
+    			<span class="color" style="background-color: white;"></span>
+    			<span class="color" style="background-color: silver;"></span>
+    			<span class="color" style="background-color: grey;"></span>
+    			<span class="color" style="background-color: black;"></span>
+    			<span class="color" style="background-color: red;"></span>
+    			<span class="color" style="background-color: maroon;"></span>
+    			<span class="color" style="background-color: yellow;"></span>
+    			<span class="color" style="background-color: lime;"></span>
+    			<span class="color" style="background-color: green;"></span>
+    			<span class="color" style="background-color: aqua;"></span>
+    			<span class="color" style="background-color: teal;"></span>
+    			<span class="color" style="background-color: blue;"></span>
+    			<span class="color" style="background-color: navy;"></span>
+    			<span class="color" style="background-color: fuchsia;"></span>
+    			<span class="color" style="background-color: purple;"></span>
+    		</div>
+    	</label>
+    	<button type="button" class="add"><i class="fas fa-check"></i></button>
+    	<button type="button" class="update"><i class="fas fa-check"></i></button>
+    	<button type="button" class="reset"><i class="fas fa-undo"></i></button>
+    	<button type="button" class="delete"><i class="fas fa-trash"></i></button>
+    	<ul class="errors">
+    	</ul>
+    </div>
+    <div class="mfp-hide popup options-popup">
+    	<label>Counter Mode</label>    	
+    	<input type="radio" id="counter-mode-up" name="counter-mode" value="up"/>
+    	<label for="counter-mode-up">Count Up</label>    	
+    	<input type="radio" id="counter-mode-down" name="counter-mode" value="down"/>
+    	<label for="counter-mode-down">Count Down</label>
+    	<div class="down counter-mode">
+	    	<label>Race Duration (minutes)
+	    		<input type="text" class="minutes"/>
+	    	</label>
+	    </div>
+    	<button type="button" class="reset-time">Reset Clock</button>
+    	<button type="button" class="clear-laps">Clear All Laps/Times</button>
+    	<button type="button" class="delete-all">Delete All Racers</button>
+    </div>
+</body>
+</html>

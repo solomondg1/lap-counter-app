@@ -1,0 +1,12 @@
+{
+  "name": "lap-counter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "scss": "node-sass --watch scss -o css"
+  },
+  "dependencies": {
+    "node-sass": "^4.8.3"
+  }
+}

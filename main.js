@@ -43,11 +43,19 @@ $( document ).ready(function() {
 			}
 			timerInt=setInterval(updateClock,10);
 			startTime = Date.now()-elapsedTime;
+			if("vibrate" in window.navigator)
+			{
+			   navigator.vibrate([500]);
+			}
 		}
 		else
 		{
 			clearInterval(timerInt);
 			timerInt=false;
+			if("vibrate" in window.navigator)
+			{
+			   navigator.vibrate([500, 500]);
+			}
 		}
 	});
 	$('#full-screen').click(toggleFullScreen);
@@ -106,6 +114,10 @@ $( document ).ready(function() {
 			time=0;
 			clearInterval(timerInt);
 			timerInt=false;
+			if("vibrate" in window.navigator)
+			{
+			   navigator.vibrate([500, 500]);
+			}
 		}
 		var minutes = Math.floor(time / 60000);
   		var seconds = Math.floor(((time % 60000) / 1000));

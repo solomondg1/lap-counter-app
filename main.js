@@ -7,6 +7,13 @@ $( document ).ready(function() {
 	var countUntil=0;
 	var countDirection='up';
 	var clock=$('.top-bar .clock');
+	clock.click(function(){
+		if(edit_mode||timerInt)
+			return;
+		if(!confirm('Reset clock?'))
+			return;
+		resetClock();
+	});
 	$('#add-racer').click(function(){
 		setupRacerPopup(null);
 	});
@@ -47,6 +54,7 @@ $( document ).ready(function() {
 			{
 			   navigator.vibrate([200]);
 			}
+			$('#start-race').html('<i class="fas fa-pause"></i>');
 		}
 		else
 		{
@@ -56,6 +64,7 @@ $( document ).ready(function() {
 			{
 			   navigator.vibrate([200, 30, 200]);
 			}
+			$('#start-race').html('<i class="fas fa-flag-checkered"></i>');
 		}
 	});
 	$('#full-screen').click(toggleFullScreen);
@@ -85,7 +94,7 @@ $( document ).ready(function() {
 		updateRacerStorage();
 		$.magnificPopup.close();
 	});
-	$('.options-popup .close-options').click(function(){
+	$('.options-popup .close').click(function(){
 		$.magnificPopup.close();
 	});
 
@@ -118,6 +127,7 @@ $( document ).ready(function() {
 			{
 			   navigator.vibrate([200, 30, 200]);
 			}
+			$('#start-race').html('<i class="fas fa-flag-checkered"></i>');
 		}
 		var minutes = Math.floor(time / 60000);
   		var seconds = Math.floor(((time % 60000) / 1000));
@@ -130,6 +140,7 @@ $( document ).ready(function() {
 		{
 			clearInterval(timerInt);
 			timerInt=false;
+			$('#start-race').html('<i class="fas fa-flag-checkered"></i>');
 		}
 		elapsedTime=0;
 		startTime=false;

@@ -59,7 +59,11 @@ button {
   cursor: pointer;
   border: 3px dashed #777;
   margin: 0 5px 10px 5px;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .2s, padding;
+  position: relative; }
+  button:active {
+    background-color: #333; }
 
 .popup {
   margin: 6px auto;
@@ -86,14 +90,35 @@ button {
     box-sizing: border-box;
     margin-bottom: 8px; }
   .popup input[type="radio"] {
-    margin-right: 0; }
+    margin-right: 0;
+    display: none; }
   .popup input[type="radio"] + label {
     display: inline-block;
     margin-right: 12px;
     font-weight: normal;
     font-size: 16px;
     margin-bottom: 18px;
-    color: #fff; }
+    color: #fff;
+    position: relative;
+    padding-left: 29px; }
+    .popup input[type="radio"] + label:before {
+      position: absolute;
+      content: "";
+      width: 22px;
+      height: 22px;
+      left: 0;
+      top: -3px;
+      background: #fff;
+      border-radius: 3px; }
+  .popup input[type="radio"]:checked + label:after {
+    position: absolute;
+    content: "";
+    width: 16px;
+    height: 16px;
+    left: 3px;
+    top: 0;
+    background: #000;
+    border-radius: 3px; }
   .popup .colors {
     margin-bottom: 8px; }
     .popup .colors:after {
@@ -146,6 +171,9 @@ button {
       margin-top: 8px;
       font-size: 17px;
       text-align: center; }
+
+.options-popup .delete-all, .options-popup .close {
+  margin-bottom: 0; }
 
 .top-bar {
   position: fixed;
@@ -242,6 +270,8 @@ button {
         font-size: 12px; }
 
 @media screen and (min-aspect-ratio: 4 / 3) {
+  body {
+    height: auto; }
   .racers-grid {
     height: 100%;
     width: 100%;
@@ -276,6 +306,6 @@ button {
   margin: 12px 0;
   text-align: center;
   position: relative;
-  z-index: 20; }
+  z-index: 5; }
   .above-grid button {
     margin-bottom: 0; }

@@ -45,7 +45,7 @@ $( document ).ready(function() {
 			startTime = Date.now()-elapsedTime;
 			if("vibrate" in window.navigator)
 			{
-			   navigator.vibrate([500]);
+			   navigator.vibrate([200]);
 			}
 		}
 		else
@@ -54,7 +54,7 @@ $( document ).ready(function() {
 			timerInt=false;
 			if("vibrate" in window.navigator)
 			{
-			   navigator.vibrate([500, 500]);
+			   navigator.vibrate([200, 30, 200]);
 			}
 		}
 	});
@@ -116,7 +116,7 @@ $( document ).ready(function() {
 			timerInt=false;
 			if("vibrate" in window.navigator)
 			{
-			   navigator.vibrate([500, 500]);
+			   navigator.vibrate([200, 30, 200]);
 			}
 		}
 		var minutes = Math.floor(time / 60000);

@@ -348,6 +348,8 @@ button
 {
 	margin:12px 0;
 	text-align:center;
+	position:relative;
+	z-index:20;
 	button
 	{
 		margin-bottom:0;

@@ -269,6 +269,8 @@ button {
 
 .above-grid {
   margin: 12px 0;
-  text-align: center; }
+  text-align: center;
+  position: relative;
+  z-index: 20; }
   .above-grid button {
     margin-bottom: 0; }

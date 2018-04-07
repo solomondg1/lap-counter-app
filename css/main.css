@@ -34,6 +34,9 @@
 .mfp-container:before {
   display: none; }
 
+html {
+  height: 100%; }
+
 body {
   margin: 0;
   font-family: Arial,Helvetica Neue,Helvetica,sans-serif;

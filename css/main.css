@@ -195,46 +195,48 @@ button {
     line-height: 36px;
     font-family: "Lucida Console", Monaco, monospace; }
 
-.racers-grid .racer {
-  padding: 12px 20px;
-  position: relative; }
-  .racers-grid .racer .inner {
-    background-color: #fff;
-    padding: 3px;
-    height: 65px;
-    width: 46%;
-    max-width: 140px;
-    border: 1px solid #000;
-    overflow: hidden;
-    box-sizing: border-box;
-    text-align: center; }
-  .racers-grid .racer .name {
-    font-size: 17px;
-    display: block;
-    white-space: nowrap; }
-  .racers-grid .racer .best-time, .racers-grid .racer .last-time {
-    font-size: 15px;
-    display: block;
-    margin-top: 1px; }
-  .racers-grid .racer .laps {
-    position: absolute;
-    border: 1px solid #000;
-    width: 80px;
-    height: 65px;
-    right: 20px;
-    top: 10px;
-    text-align: center;
-    padding: 19px 0;
-    box-sizing: border-box;
-    font-size: 22px;
-    background-color: #fff; }
-    .racers-grid .racer .laps:before {
+.racers-grid {
+  background: #000; }
+  .racers-grid .racer {
+    padding: 12px 20px;
+    position: relative; }
+    .racers-grid .racer .inner {
+      background-color: #fff;
+      padding: 3px;
+      height: 65px;
+      width: 46%;
+      max-width: 140px;
+      border: 1px solid #000;
+      overflow: hidden;
+      box-sizing: border-box;
+      text-align: center; }
+    .racers-grid .racer .name {
+      font-size: 17px;
+      display: block;
+      white-space: nowrap; }
+    .racers-grid .racer .best-time, .racers-grid .racer .last-time {
+      font-size: 15px;
+      display: block;
+      margin-top: 1px; }
+    .racers-grid .racer .laps {
       position: absolute;
-      content: 'Laps';
-      top: 1px;
-      left: 0;
-      width: 100%;
-      font-size: 12px; }
+      border: 1px solid #000;
+      width: 80px;
+      height: 65px;
+      right: 20px;
+      top: 10px;
+      text-align: center;
+      padding: 19px 0;
+      box-sizing: border-box;
+      font-size: 22px;
+      background-color: #fff; }
+      .racers-grid .racer .laps:before {
+        position: absolute;
+        content: 'Laps';
+        top: 1px;
+        left: 0;
+        width: 100%;
+        font-size: 12px; }
 
 @media screen and (min-aspect-ratio: 4 / 3) {
   .racers-grid {

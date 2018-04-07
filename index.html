@@ -22,42 +22,42 @@
 		<button type="button" id="full-screen"><i class="fas fa-expand-arrows-alt"></i></button>
 	</div>
     <section class="main">
-    	<div class="racers-grid">
-
-    	</div>
-        <div class="under-grid">
+        <div class="above-grid">
             <button type="button" id="add-racer"><i class="fas fa-plus"></i></button>
             <button type="button" id="edit-racers"><i class="fas fa-edit"></i></button>
             <button type="button" id="options"><i class="fas fa-cogs"></i></button>
         </div>
+    	<div class="racers-grid">
+
+    	</div>
+        
     </section>
     <div class="mfp-hide popup add-racer-popup">
-    	<label>Name
-    		<input type="text" class="name"/>
-    	</label>
-    	<label class="color-picker">Color
-    		<div class="colors">
-    			<span class="color" style="background-color: white;"></span>
-    			<span class="color" style="background-color: silver;"></span>
-    			<span class="color" style="background-color: grey;"></span>
-    			<span class="color" style="background-color: black;"></span>
-    			<span class="color" style="background-color: red;"></span>
-    			<span class="color" style="background-color: maroon;"></span>
-    			<span class="color" style="background-color: yellow;"></span>
-    			<span class="color" style="background-color: lime;"></span>
-    			<span class="color" style="background-color: green;"></span>
-    			<span class="color" style="background-color: aqua;"></span>
-    			<span class="color" style="background-color: teal;"></span>
-    			<span class="color" style="background-color: blue;"></span>
-    			<span class="color" style="background-color: navy;"></span>
-    			<span class="color" style="background-color: fuchsia;"></span>
-    			<span class="color" style="background-color: purple;"></span>
-    		</div>
-    	</label>
+    
+    	<input type="text" class="name" placeholder="Name" />    	
+		<div class="colors">
+			<span class="color" style="background-color: white;"></span>
+			<span class="color" style="background-color: silver;"></span>
+			<span class="color" style="background-color: grey;"></span>
+			<span class="color" style="background-color: black;"></span>
+			<span class="color" style="background-color: red;"></span>
+			<span class="color" style="background-color: maroon;"></span>
+			<span class="color" style="background-color: yellow;"></span>
+			<span class="color" style="background-color: lime;"></span>
+			<span class="color" style="background-color: green;"></span>
+			<span class="color" style="background-color: aqua;"></span>
+			<span class="color" style="background-color: teal;"></span>
+			<span class="color" style="background-color: blue;"></span>
+			<span class="color" style="background-color: navy;"></span>
+			<span class="color" style="background-color: fuchsia;"></span>
+			<span class="color" style="background-color: purple;"></span>
+		</div>
+    	
     	<button type="button" class="add"><i class="fas fa-check"></i></button>
     	<button type="button" class="update"><i class="fas fa-check"></i></button>
     	<button type="button" class="reset"><i class="fas fa-undo"></i></button>
     	<button type="button" class="delete"><i class="fas fa-trash"></i></button>
+        <button type="button" class="close"><i class="fas fa-times"></i></button>
     	<ul class="errors">
     	</ul>
     </div>
@@ -75,6 +75,7 @@
     	<button type="button" class="reset-time">Reset Clock</button>
     	<button type="button" class="clear-laps">Clear All Laps/Times</button>
     	<button type="button" class="delete-all">Delete All Racers</button>
+        <button type="button" class="close-options">Close Options</button>
     </div>
 </body>
 </html>

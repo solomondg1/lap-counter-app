@@ -4,6 +4,8 @@ $( document ).ready(function() {
 	var timerInt=false;
 	var startTime=false;
 	var elapsedTime=0;
+	var countUntil=0;
+	var countDirection='up';
 	var clock=$('.top-bar .clock');
 	$('#add-racer').click(function(){
 		setupRacerPopup(null);
@@ -34,6 +36,11 @@ $( document ).ready(function() {
 	$('#start-race').click(function(){
 		if(!timerInt)
 		{
+			var minutes_setting=parseInt($('.options-popup input.minutes').val()) || 0;
+			if(minutes_setting>0 && countDirection=='down')
+			{
+				countUntil=1000*60*minutes_setting;
+			}
 			timerInt=setInterval(updateClock,10);
 			startTime = Date.now()-elapsedTime;
 		}
@@ -43,16 +50,11 @@ $( document ).ready(function() {
 			timerInt=false;
 		}
 	});
-	$('#full-screen').click(requestFullScreen);
+	$('#full-screen').click(toggleFullScreen);
+
 	$('.options-popup .reset-time').click(function(){
-		if(timerInt)
-		{
-			clearInterval(timerInt);
-			timerInt=false;
-		}
-		elapsedTime=0;
-		startTime=false;
-		clock.html('--:--:--');
+		resetClock();
+		$.magnificPopup.close();
 	});
 	$('.options-popup .clear-laps').click(function(){
 		if(!confirm('Clear all lap times?'))
@@ -65,22 +67,66 @@ $( document ).ready(function() {
 			setup.laps=false;
 			updateRacer($(this), setup);
 		});
-		updateStorage();
+		updateRacerStorage();
+		$.magnificPopup.close();
 	});
 	$('.options-popup .delete-all').click(function(){
 		if(!confirm('Delete all racers?'))
 			return;
 		$('.racers-grid .racer').remove();
-		updateStorage();
+		updateRacerStorage();
+		$.magnificPopup.close();
+	});
+	$('.options-popup .close-options').click(function(){
+		$.magnificPopup.close();
+	});
+
+	$('.options-popup input.minutes').change(function(){		
+		updateOptionsStorage();
+		resetClock();
+	});
+	$('.options-popup input[name="counter-mode"]').change(function(){
+		if($(this).val()=="down")
+			$('.counter-mode.down').slideDown();
+		else
+			$('.counter-mode.down').slideUp();
+		
+		updateOptionsStorage();
+		resetClock();
 	});
 	
 	function updateClock()
 	{
 		elapsedTime = Date.now() - startTime;
-		var minutes = Math.floor(elapsedTime / 60000);
-  		var seconds = ((elapsedTime % 60000) / 1000).toFixed(0);
-  		var millis = ((elapsedTime % 1000) / 10).toFixed(0);
+		var time=elapsedTime;
+		if(countDirection=="down" && countUntil!=0)
+			time=countUntil-elapsedTime;
+		if(time<=0)
+		{
+			time=0;
+			clearInterval(timerInt);
+			timerInt=false;
+		}
+		var minutes = Math.floor(time / 60000);
+  		var seconds = Math.floor(((time % 60000) / 1000));
+  		var millis = Math.floor(((time % 1000) / 10));
 		clock.html((minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds + ":" + (millis < 10 ? '0' : '') + millis);
+	}
+	function resetClock()
+	{
+		if(timerInt)
+		{
+			clearInterval(timerInt);
+			timerInt=false;
+		}
+		elapsedTime=0;
+		startTime=false;
+
+		var minutes_setting=parseInt($('.options-popup input.minutes').val()) || 0;
+		if(minutes_setting>0 && countDirection=='down')
+			clock.html((minutes_setting < 10 ? '0' : '') + minutes_setting + ':00:00');
+		else
+			clock.html('--:--:--');
 	}
 
 	function setupRacerPopup(racer)
@@ -116,12 +162,12 @@ $( document ).ready(function() {
 				updateRacer(racer, {name:name,color:color});
 			else
 				addRacer({name:name,color:color});
-			updateStorage();
+			updateRacerStorage();
 			$.magnificPopup.close();
 		});
 		$('.delete', popup).click(function(){
 			racer.remove();
-			updateStorage();
+			updateRacerStorage();
 			$.magnificPopup.close();
 		});
 		$('.reset', popup).click(function(){
@@ -131,7 +177,10 @@ $( document ).ready(function() {
 			setup.last_elapsed=false;
 			setup.laps=false;
 			updateRacer(racer, setup);
-			updateStorage();
+			updateRacerStorage();
+		});
+		$('.close', popup).click(function(){
+			$.magnificPopup.close();
 		});
 		if(racer!=null)
 		{
@@ -224,10 +273,10 @@ $( document ).ready(function() {
 				setup.last_elapsed=elapsedTime;
 			}
 			updateRacer($(this),setup);
-			updateStorage();
+			updateRacerStorage();
 		}
 	}
-	function updateStorage()
+	function updateRacerStorage()
 	{
 		if (typeof(Storage) == "undefined")
 			return;
@@ -237,6 +286,19 @@ $( document ).ready(function() {
 		});
 		localStorage.setItem("racers", JSON.stringify(racers));
 	}
+	function updateOptionsStorage()
+	{
+		if (typeof(Storage) == "undefined")
+			return;
+		var options = {
+			'counter-mode':$('.options-popup input[name="counter-mode"]:checked').val(),
+			'race-duration':parseInt($('.options-popup input.minutes').val()) || ''
+		};
+		countDirection=options['counter-mode'];
+		localStorage.setItem("options", JSON.stringify(options));
+	}
+
+	
 	function init()
 	{
 		if (typeof(Storage) == "undefined")
@@ -247,29 +309,76 @@ $( document ).ready(function() {
 		{
 			addRacer(racers[i]);
 		}
+		var options = JSON.parse(localStorage.getItem("options"));
+		if(options!=null)
+		{
+			if(typeof options['race-duration'] != 'undefined')
+				$('.options-popup input.minutes').val(options['race-duration']);
+			if(typeof options['counter-mode'] != 'undefined')				
+				$('.options-popup input[name="counter-mode"][value="'+options['counter-mode']+'"]').attr('checked',true).change();
+		}
+		else
+		{
+			$('#counter-mode-up').attr('checked',true);
+		}
+
+
+		
 	}
-	function requestFullScreen()
+	function toggleFullScreen()
 	{
-	  var el = document.body;
+	  var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+	        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+	        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+	        (document.msFullscreenElement && document.msFullscreenElement !== null);
 
-	  // Supports most browsers and their versions.
-	  var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen 
-	  || el.mozRequestFullScreen || el.msRequestFullScreen;
-
-	  if (requestMethod) {
-
-	    // Native full screen.
-	    requestMethod.call(el);
-
-	  } else if (typeof window.ActiveXObject !== "undefined") {
-
-	    // Older IE.
-	    var wscript = new ActiveXObject("WScript.Shell");
-
-	    if (wscript !== null) {
-	      wscript.SendKeys("{F11}");
+	    var docElm = document.documentElement;
+	    if (!isInFullScreen) {
+	        if (docElm.requestFullscreen) {
+	            docElm.requestFullscreen();
+	        } else if (docElm.mozRequestFullScreen) {
+	            docElm.mozRequestFullScreen();
+	        } else if (docElm.webkitRequestFullScreen) {
+	            docElm.webkitRequestFullScreen();
+	        } else if (docElm.msRequestFullscreen) {
+	            docElm.msRequestFullscreen();
+	        }
+	    } else {
+	        if (document.exitFullscreen) {
+	            document.exitFullscreen();
+	        } else if (document.webkitExitFullscreen) {
+	            document.webkitExitFullscreen();
+	        } else if (document.mozCancelFullScreen) {
+	            document.mozCancelFullScreen();
+	        } else if (document.msExitFullscreen) {
+	            document.msExitFullscreen();
+	        }
 	    }
-	  }
+	 
+	}
+	if (document.addEventListener)
+	{
+	    document.addEventListener('webkitfullscreenchange', exitFullScreen, false);
+	    document.addEventListener('mozfullscreenchange', exitFullScreen, false);
+	    document.addEventListener('fullscreenchange', exitFullScreen, false);
+	    document.addEventListener('MSFullscreenChange', exitFullScreen, false);
+	}
+
+	function exitFullScreen()
+	{
+		var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+	        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+	        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+	        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+	    if (!isInFullScreen)
+	    {
+	        $('#full-screen').html('<i class="fas fa-expand-arrows-alt"></i>');
+	    }
+	    else
+	    {
+	    	 $('#full-screen').html('<i class="fas fa-compress"></i>');
+	    }
 	}
 
 	init();
